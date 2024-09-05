@@ -1,5 +1,6 @@
 const { deleteBook } = require('../controllers/user-controller');
 const { bookSchema, User } = require('../models');
+const { signToken } = require('../utils/auth');
 
 const resolvers = {
     Query: {
@@ -12,19 +13,21 @@ const resolvers = {
         },
     },
     Mutation: {
-        createUser: async (parent, args) => {
-            const newUser = await User.create(args);
-            return newUser;
+        signUp: async (parent, args) => {
+            const user = await User.create(args);
+            console.log(user);
+            const token = signToken(user);
+            return {user, token};
         },
         login: async (parent, args) => {
             const newLogin = await User.findOne(args);
             return newLogin;
         },
-        saveBook: async (parent, { user, body}) => {
+        saveBook: async (parent,  args) => {
             return User.findOneAndUpdate(
                 { _id: user },
                 {
-                    $addToSet: { savedBook: { body } },
+                    $addToSet: { savedBooks: { body } },
                 },
                 {
                     new: true,
@@ -32,7 +35,7 @@ const resolvers = {
                 }
             );
         },
-        deleteBook: async (parent, { user, body }) => {
+        deleteBook: async (parent, args) => {
             return User.findByIdAndUpdate(
                 { _id: user },
                 { $pull: { savedBooks: { bookId: body.bookId } } },
