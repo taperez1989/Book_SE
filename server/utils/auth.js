@@ -7,11 +7,11 @@ const expiration = '2h';
 
 
 module.exports = {
-  AuthenticationError: new GraphQLError('could not authenticate user.', {
-    extensions: {
-      code: 'UNAUTHENTICATED',
-    },
-  }),
+  // // AuthenticationError: new GraphQLError('could not authenticate user.', {
+  // //   extensions: {
+  // //     code: 'UNAUTHENTICATED',
+  // //   },
+  // }),
   signToken: function ({ username, email, _id }) {
     const payload = { username, email, _id };
     
