@@ -1,15 +1,18 @@
 const typeDefs = `
 type User {
-_id: ID!
-username: String!
-email: String!
+    _id: ID!
+    username: String!
+    email: String!
+    savedBooks: [Book]
 }
 
 input BookInput {
 authors: [String!]!       
 description: String!       
 title: String!            
-bookId: String                             
+bookId: String!
+image: String!
+link: String!
 }
 
 type Book {
@@ -17,8 +20,9 @@ _id: ID!
 title: String!
 authors: [String!]!
 description: String!
-bookId: String
-
+bookId: String!
+image: String!
+link: String!
 }
 
 type Auth {
